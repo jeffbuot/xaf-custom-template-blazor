@@ -1,20 +1,71 @@
 ﻿@using DevExpress.ExpressApp.Actions
 
-<DxMenu Data="@ActionControl.Items" ItemClick="@OnItemClick" HamburgerButtonPosition="MenuHamburgerButtonPosition.Left" CollapseItemsToHamburgerMenu="true">
+@*<DxMenu Data="@ActionControl.Items" ItemClick="@OnItemClick" HamburgerButtonPosition="MenuHamburgerButtonPosition.Left" CollapseItemsToHamburgerMenu="true">
     <TitleTemplate>
-        @TitleTemplate
+    @TitleTemplate
     </TitleTemplate>
     <DataMappings>
-        <DxMenuDataMapping Text="@nameof(ChoiceActionItem.Caption)" Children="@nameof(ChoiceActionItem.Items)" />
+    <DxMenuDataMapping Text="@nameof(ChoiceActionItem.Caption)" Children="@nameof(ChoiceActionItem.Items)" />
     </DataMappings>
-</DxMenu>
+    </DxMenu>
+*@
+<div class="cw-240">
+    <h5 class="card-title">Code Alchemeee</h5>
+    <DxTreeView Data="@ActionControl.Items" AllowSelectNodes="true" SelectionChanged="@SelectionChanged">
 
+        <DataMappings>
+            <DxTreeViewDataMapping Children="Items"
+                                   Text="Caption">
+            </DxTreeViewDataMapping>
+        </DataMappings>
+        <NodeTextTemplate>
+            @{
+                var dataItem = (ChoiceActionItem)context.DataItem;
+            }
+          @*  <div class="p-3">
+
+            </div>*@
+            <i class="@GetFAIconClass(dataItem.ImageName)"></i><span class="ml-1">@dataItem.Caption</span>
+
+        </NodeTextTemplate>
+    </DxTreeView>
+    <p class="demo-text cw-480 mt-2">Selected group: <b>@SelectedGroup</b></p>
+</div>
 @code {
-    public static RenderFragment Create(RenderFragment titleTemplate, CustomShowNavigationItemActionControl actionControl) =>
-        @<CustomShowNavigationItemActionControlComponent TitleTemplate="@titleTemplate" ActionControl="@actionControl" />;
+    public static RenderFragment Create(RenderFragment titleTemplate, CustomShowNavigationItemActionControl actionControl) => @<CustomShowNavigationItemActionControlComponent TitleTemplate="@titleTemplate" ActionControl="@actionControl" />
+    ;
+    protected Dictionary<string, string> FontIcons = new Dictionary<string, string>
+    {
+        //{ ""}
+    };
+
     [Parameter]
     public RenderFragment TitleTemplate { get; set; }
     [Parameter]
     public CustomShowNavigationItemActionControl ActionControl { get; set; }
-    private void OnItemClick(MenuItemClickEventArgs e) => ActionControl.DoExecute((ChoiceActionItem)e.ItemInfo.Data);
+
+
+    string SelectedGroup = "none";
+    DxTreeView treeView;
+    Dictionary<string, string> IconDictionary = new Dictionary<string, string>
+    {
+        { "BO_Contact","fas fa-id-card-alt"},
+        { "BO_MyDetails","fas fa-address-card"},
+        { "BO_Role","fas fa-user-tag"},
+        { "BO_Unknown","far fa-sticky-note"},
+        { "BO_Task","fas fa-tasks"},
+        { "BO_User","fas fa-user"}
+     };
+    protected void SelectionChanged(TreeViewNodeEventArgs e)
+    {
+        SelectedGroup = e.NodeInfo.Text;
+        InvokeAsync(StateHasChanged);
+        ActionControl.DoExecute((ChoiceActionItem)e.NodeInfo.DataItem);        
+    }
+    string GetFAIconClass(string navImageName)
+    {
+        string iconName = "";
+        IconDictionary.TryGetValue(navImageName, out iconName);
+        return iconName;
+    }
 }

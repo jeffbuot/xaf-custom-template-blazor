@@ -22,7 +22,7 @@ namespace XafBlazorCustomTemplateSample.Blazor.Server.Templates
             AddActionControls(AccountComponent.ActionControls);
             ShowNavigationItemActionControl = new CustomShowNavigationItemActionControl();
             AddActionControl(ShowNavigationItemActionControl);
-
+            
             IsActionsToolbarVisible = true;
             Toolbar = new DxToolbarAdapter(new DxToolbarModel());
             Toolbar.AddActionContainer(nameof(PredefinedCategory.ObjectsCreation));

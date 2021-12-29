@@ -7,27 +7,45 @@
 @inherits FrameTemplateComponentBase<CustomApplicationWindowTemplate>
 
 <div class="app h-100 d-flex flex-column">
-    <div class="d-flex shadow-sm">
-        @FrameTemplate.ShowNavigationItemActionControl.GetComponentContent(@<ViewCaptionComponent WindowCaption="@FrameTemplate" />)
+    @*header*@
+    <div class="header d-flex flex-row shadow-sm navbar-dark flex-nowrap">
+        <div class="header-left-side d-flex align-items-center pl-2">
+            <button onclick="xaf.toggleSideBar()" class="btn-hamburger p-0 btn btn-secondary btn-header"><!--!--><div class="xaf-image " style="background-color: currentColor; -webkit-mask: url('IImageService/Hamburger?hash=d92d55374ce2c8cad817b72442851fed'); mask: url('IImageService/Hamburger?hash=d92d55374ce2c8cad817b72442851fed'); -webkit-mask-position: center; mask-position: center; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; height: 24px; width: 24px; mask-size: 24px; -webkit-mask-size: 24px; margin: auto;"></div></button><!--!-->
+            <div class="header-logo mx-3"></div>
+        </div>
         @FrameTemplate.AccountComponent.GetComponentContent()
         <SettingsComponent />
     </div>
-    <div class="main xaf-flex-auto overflow-hidden d-flex flex-column">
-        <SizeModeContainer>
-            @if (FrameTemplate.IsActionsToolbarVisible && @FrameTemplate.Toolbar.ContainsVisibleActionControl())
-            {
-                <div class="main-toolbar py-3 px-2 px-sm-3">@FrameTemplate.Toolbar.GetComponentContent()</div>
-            }
-            <div class="main-content xaf-flex-auto overflow-auto pb-3 px-2 px-sm-3 d-flex flex-column">
-                <div class="xaf-flex-auto">
-                    <ViewSiteComponent View="@FrameTemplate.View" />
+
+    <div class="xaf-flex-auto overflow-hidden d-flex">
+
+        @*sidebar*@
+        <div class="sidebar d-none d-sm-flex flex-column p-3">
+            @FrameTemplate.ShowNavigationItemActionControl.GetComponentContent(@<ViewCaptionComponent WindowCaption="@FrameTemplate" />)
+        </div>
+
+        @*shadow*@
+        <div class="sidebar-sm-shadow" onclick="xaf.toggleSideBar()"></div>
+
+        @*main content*@
+        <div class="main xaf-flex-auto overflow-hidden d-flex flex-column">
+            <SizeModeContainer>
+                @if (FrameTemplate.IsActionsToolbarVisible && @FrameTemplate.Toolbar.ContainsVisibleActionControl())
+                {
+                    <div class="main-toolbar py-3 px-2 px-sm-3">@FrameTemplate.Toolbar.GetComponentContent()</div>
+                }
+                <div class="main-content xaf-flex-auto overflow-auto pb-3 px-2 px-sm-3 d-flex flex-column">
+                    <div class="xaf-flex-auto">
+                        <ViewSiteComponent View="@FrameTemplate.View" />
+                    </div>
+                    <div class="about-info text-muted mt-3">
+                        @((MarkupString)FrameTemplate.AboutInfoString)
+                    </div>
                 </div>
-                <div class="about-info text-muted mt-3">
-                    @((MarkupString)FrameTemplate.AboutInfoString)
-                </div>
-            </div>
-        </SizeModeContainer>
+            </SizeModeContainer>
+        </div>
     </div>
+
 </div>
 
 @code {
