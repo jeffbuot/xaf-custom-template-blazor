@@ -21,7 +21,7 @@
 
         @*sidebar*@
         <div class="sidebar d-none d-sm-flex flex-column p-3">
-            @FrameTemplate.ShowNavigationItemActionControl.GetComponentContent(@<ViewCaptionComponent WindowCaption="@FrameTemplate" />)
+            @FrameTemplate.ShowNavigationItemActionControl.GetComponentContent(@<ViewCaptionComponent WindowCaption="@FrameTemplate" />,FrameTemplate.AboutInfoString)
         </div>
 
         @*shadow*@
@@ -38,9 +38,9 @@
                     <div class="xaf-flex-auto">
                         <ViewSiteComponent View="@FrameTemplate.View" />
                     </div>
-                    <div class="about-info text-muted mt-3">
+                   @* <div class="about-info text-muted mt-3">
                         @((MarkupString)FrameTemplate.AboutInfoString)
-                    </div>
+                    </div>*@
                 </div>
             </SizeModeContainer>
         </div>
@@ -50,5 +50,6 @@
 
 @code {
     public static RenderFragment Create(CustomApplicationWindowTemplate applicationWindowTemplate) =>
-        @<CustomApplicationWindowTemplateComponent FrameTemplate="@applicationWindowTemplate" />;
+    @<CustomApplicationWindowTemplateComponent FrameTemplate="@applicationWindowTemplate" />
+;
 }

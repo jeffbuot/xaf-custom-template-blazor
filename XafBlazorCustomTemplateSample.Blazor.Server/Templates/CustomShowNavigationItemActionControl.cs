@@ -14,7 +14,7 @@ namespace XafBlazorCustomTemplateSample.Blazor.Server.Templates
         string IActionControl.ActionId => "ShowNavigationItem";
         object IActionControl.NativeControl => this;
         public IEnumerable<ChoiceActionItem> Items => choiceActionItems;
-        public RenderFragment GetComponentContent(RenderFragment titleTemplate) => CustomShowNavigationItemActionControlComponent.Create(titleTemplate, this);
+        public RenderFragment GetComponentContent(RenderFragment titleTemplate,string about) => CustomShowNavigationItemActionControlComponent.Create(titleTemplate, this,about);
         void ISingleChoiceActionControl.SetChoiceActionItems(ChoiceActionItemCollection choiceActionItems) => this.choiceActionItems = choiceActionItems;
         public void DoExecute(ChoiceActionItem choiceActionItem)
         {

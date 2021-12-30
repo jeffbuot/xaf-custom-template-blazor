@@ -1,16 +1,24 @@
 ﻿@using DevExpress.ExpressApp.Actions
 
-@*<DxMenu Data="@ActionControl.Items" ItemClick="@OnItemClick" HamburgerButtonPosition="MenuHamburgerButtonPosition.Left" CollapseItemsToHamburgerMenu="true">
-    <TitleTemplate>
-    @TitleTemplate
-    </TitleTemplate>
-    <DataMappings>
-    <DxMenuDataMapping Text="@nameof(ChoiceActionItem.Caption)" Children="@nameof(ChoiceActionItem.Items)" />
-    </DataMappings>
-    </DxMenu>
-*@
+@{
+    <style>
+        .cw-240 {
+            font-size: .9rem;
+            font-weight: bold;
+        }
+
+        span.expand-btn.btn.btn-link.invisible {
+            display: none;
+        }
+
+        .dxbs-tree ul.nav > .nav-item > .nav-link {
+            padding: .7rem;
+        }
+    </style>
+}
+
 <div class="cw-240">
-    <h5 class="card-title">Code Alchemeee</h5>
+
     <DxTreeView Data="@ActionControl.Items" AllowSelectNodes="true" SelectionChanged="@SelectionChanged">
 
         <DataMappings>
@@ -22,17 +30,22 @@
             @{
                 var dataItem = (ChoiceActionItem)context.DataItem;
             }
-          @*  <div class="p-3">
+            @*  <div class="p-3">
 
-            </div>*@
+                </div>*@
             <i class="@GetFAIconClass(dataItem.ImageName)"></i><span class="ml-1">@dataItem.Caption</span>
 
         </NodeTextTemplate>
     </DxTreeView>
-    <p class="demo-text cw-480 mt-2">Selected group: <b>@SelectedGroup</b></p>
+    @*<p class="demo-text cw-480 mt-2">Selected group: <b>@SelectedGroup</b></p>*@
+</div>
+
+<div class="mt-auto about-info text-muted mt-3">
+    @((MarkupString)About)
 </div>
 @code {
-    public static RenderFragment Create(RenderFragment titleTemplate, CustomShowNavigationItemActionControl actionControl) => @<CustomShowNavigationItemActionControlComponent TitleTemplate="@titleTemplate" ActionControl="@actionControl" />
+    public static RenderFragment Create(RenderFragment titleTemplate, CustomShowNavigationItemActionControl actionControl, string about) => 
+    @<CustomShowNavigationItemActionControlComponent TitleTemplate="@titleTemplate" ActionControl="@actionControl" About="@about"/>
     ;
     protected Dictionary<string, string> FontIcons = new Dictionary<string, string>
     {
@@ -42,8 +55,9 @@
     [Parameter]
     public RenderFragment TitleTemplate { get; set; }
     [Parameter]
-    public CustomShowNavigationItemActionControl ActionControl { get; set; }
-
+    public CustomShowNavigationItemActionControl ActionControl { get; set; }    
+    [Parameter]
+    public string About { get; set; }
 
     string SelectedGroup = "none";
     DxTreeView treeView;
@@ -60,7 +74,7 @@
     {
         SelectedGroup = e.NodeInfo.Text;
         InvokeAsync(StateHasChanged);
-        ActionControl.DoExecute((ChoiceActionItem)e.NodeInfo.DataItem);        
+        ActionControl.DoExecute((ChoiceActionItem)e.NodeInfo.DataItem);
     }
     string GetFAIconClass(string navImageName)
     {
