@@ -5,7 +5,9 @@
 <!-- default badges end -->
 # XAF Blazor - How to create a custom template
 
-This example demonstrates how to change the built-in navigation system (uses a [DxTreeView](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxTreeView?v=21.2) component) with a [DxMenu](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxMenu?v=21.2) component. 
+> In this demo I'm using [Fontawesome](https://fontawesome.com) icons on the navigation items.
+
+This example demonstrates how to change the built-in navigation system (uses a [DxTreeView](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxTreeView?v=21.2) component) with a [DxMenu](https://docs.devexpress.com/Blazor/DevExpress.Blazor.DxMenu?v=21.2) component.
 
 ![](./media/custom-blazor-template.png)
 
